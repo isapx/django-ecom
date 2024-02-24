@@ -10,6 +10,59 @@
                 </div>
             </div>
         </header>
+        <div class="container">
+        
+            {% if cart_products %}
+
+        {% for product in cart_products %}
+        
+        <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <center>  
+                  <h5 class="card-title">{{ product.name }}</h5>
+                  <p class="card-text">{{ product.description }}</p>
+    
+                  {% if product.is_sale %}
+    
+                    <div class="d-flex 
+                    justify-content-center small 
+                    text-warning mb-2">
+                    <div class="bi-star-fill"></div>
+                    &nbsp;&nbsp;Oferta!!!&nbsp;&nbsp;
+                    <div class="bi-star-fill"></div>
+                    </div>
+                    <!-- Product price-->
+                    <strike>${{ product.price }}</strike>
+                    <br />
+                    ${{ product.sale_price }}
+    
+                  {% else %}
+                    ${{ product.price }}
+                    <br />ID: {{ product.id }}
+    
+                  {%endif %}
+                  <br/><br/>
+                  <a href="{% url 'home' %}" class="btn btn-secondary">Inicio</a>
+               
+                  
+                </center>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        {% endfor %}
+        {% else %}
+        No hay nada en el carrito
+        {% endif %}
+        </div>
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         
 {% endblock %}
