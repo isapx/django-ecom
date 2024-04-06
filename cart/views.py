@@ -7,7 +7,8 @@ def cart_summary(request):
     #obtenemos el carrito
     cart = Cart(request)
     cart_products = cart.get_prods
-    return render(request, 'cart_summary.html',{"cart_products": cart_products})
+    quantities = cart.get_quants
+    return render(request, 'cart_summary.html',{"cart_products": cart_products, "quantities": quantities})
 
 
 def cart_add(request):
@@ -19,13 +20,14 @@ def cart_add(request):
         #obtenemos la info
         #product_id = int(request.POST.get('product_id'))
         product_id = int(request.POST.get('product_id'))
+        product_qty = int(request.POST.get('product_qty'))
 
         #buscamos el producto en la base de datos
        #product = get_object_or_404(Product, id=product_id)
         product = get_object_or_404(Product, id=product_id)
 
         #lo guadramos en la sesion
-        cart.add(product=product)
+        cart.add(product=product,quantity=product_qty)
 
         #obtenemos la cantidad de articulos en el carrito
         cart_quantity = cart.__len__()
