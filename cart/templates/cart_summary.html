@@ -70,7 +70,8 @@
                   <a href="{% url 'home' %}" class="btn btn-secondary">Inicio</a>
                   <button type="button" data-index="{{product.id}}"
                   class="btn btn-secondary update-cart">Actualizar</button>
-               
+                  <button type="button" data-index="{{product.id}}"
+                  class="btn btn-danger delete-product">Remover</button>
                   
                 </center>
                 </div>
@@ -90,6 +91,7 @@
 
 
 <script>
+  //actualizar carrito
   $(document).on('click', '.update-cart', function(e){ //usamos #para id y usamos . para clases
       e.preventDefault();
       //obtenemos el product id
@@ -101,6 +103,38 @@
             product_id: $(this).data('index'),
             //ojo con el espacio en blanco que debe ir antes del option:selected
             product_qty: $('#select' + productid + ' option:selected').text(),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+          },
+  
+          success: function(json){
+              //console.log(json)
+              //document.getElementById("cart_quantity").textContent = json.qty
+              location.reload();
+          },
+  
+          error: function(xhr, errmsg, err){
+  
+          }
+  
+  
+      });
+  
+  
+  
+  })
+
+
+//borrar del carrito
+$(document).on('click', '.delete-product', function(e){ //usamos #para id y usamos . para clases
+      e.preventDefault();
+      //obtenemos el product id
+      //var productid = $(this).data('index');
+      $.ajax({
+          type: 'POST',
+          url: '{% url "cart_delete" %}',
+          data: {
+            product_id: $(this).data('index'),
             csrfmiddlewaretoken: '{{ csrf_token }}',
             action: 'post'
           },
